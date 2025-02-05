@@ -3,6 +3,8 @@ import 'package:construction/widgets/physical_properties_widget.dart';
 import 'package:construction/widgets/search_inventory_id_widget.dart';
 import 'package:construction/widgets/traffic_load_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong2/latlong.dart';
 
 class InspectionScreen extends StatefulWidget {
   const InspectionScreen({Key? key}) : super(key: key);
@@ -39,7 +41,10 @@ class _InspectionScreenState extends State<InspectionScreen>
             _buildHeader(),
             _buildTabs(),
             SizedBox(
-              height: MediaQuery.of(context).size.height -
+              height: MediaQuery
+                  .of(context)
+                  .size
+                  .height -
                   (kToolbarHeight + kTextTabBarHeight),
               child: TabBarView(
                 controller: _tabController,
@@ -142,7 +147,6 @@ class _InspectionScreenState extends State<InspectionScreen>
     );
   }
 
-
   Widget _buildMapSection() {
     return Container(
       height: 200,
@@ -152,12 +156,37 @@ class _InspectionScreenState extends State<InspectionScreen>
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: const Color(0xFFE2E8F0)),
       ),
-      child: const Center(
-        child: Text(
-          "MAP HERE",
-          style: TextStyle(fontSize: 16, color: Colors.black54),
+      child: FlutterMap(
+        options: MapOptions(
+          center: LatLng(24.6, 91),  // Set center to the location of your marker
+          zoom: 13.0,  // Fixed zoom level
+          minZoom: 10.0,  // Optional: You can set this to a value you prefer, or remove it completely
+          // maxZoom: 18.0,  // Optional: Set max zoom level, or adjust if needed
         ),
+        children: [
+          TileLayer(
+            urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+            subdomains: ['a', 'b', 'c'],
+          ),
+          MarkerLayer(
+            markers: [
+              Marker(
+                point: LatLng(24.6, 91),  // Marker location
+                width: 80.0,
+                height: 80.0,
+                builder: (context) => const Icon(
+                  Icons.location_pin,
+                  color: Colors.green,
+                  size: 40,
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
+
 }
+
+

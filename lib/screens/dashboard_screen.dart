@@ -1,3 +1,5 @@
+import 'package:construction/screens/add_new_inspection_screen.dart';
+import 'package:construction/screens/search_screen.dart';
 import 'package:flutter/material.dart';
 
 class DashboardScreen extends StatelessWidget {
@@ -6,13 +8,21 @@ class DashboardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _buildHeader(context),
+            SizedBox(height: 50),
+            Container(
+              padding: EdgeInsets.only(left: 25),
+              child: Text("Quick Stats"),
+            ),
             _buildQuickStats(context),
+            Container(
+              padding: EdgeInsets.only(left: 25),
+              child: Text("Quick Action"),
+            ),
             _buildQuickActions(context),
             _buildRecentInspections(context),
           ],
@@ -25,32 +35,50 @@ class DashboardScreen extends StatelessWidget {
     return Center(
       child: Container(
         width: 350,
-        padding: const EdgeInsets.all(24),
+        margin: EdgeInsets.only(top: 5),
+        padding: const EdgeInsets.all(0),
         decoration: BoxDecoration(
           color: Theme.of(context).primaryColor,
-          borderRadius: const BorderRadius.only(
-            bottomLeft: Radius.circular(32),
-            bottomRight: Radius.circular(32),
+          borderRadius: const BorderRadius.all(
+            Radius.circular(32),
           ),
         ),
-        child: const Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Welcome back,',
-                style: TextStyle(color: Colors.white70, fontSize: 16),
-              ),
-              SizedBox(height: 8),
-              Text(
-                'Inspector',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
+        child: Center(
+          child: Container(
+            padding: EdgeInsets.all(5),
+            child: Row(
+              children: [
+                CircleAvatar(
+                  radius: 30,
+                  backgroundImage: AssetImage(''),
                 ),
-              ),
-            ],
+                Container(
+                  margin: EdgeInsets.only(left: 10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: 10),
+                      Text(
+                        'Culbul Pande',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        'Inspector',
+                        style: TextStyle(
+                          color: Colors.orange,
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -62,7 +90,8 @@ class DashboardScreen extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       child: Row(
         children: [
-          _buildStatCard(context, 'Completed', '0', Icons.check_circle, Colors.green),
+          _buildStatCard(
+              context, 'Completed', '0', Icons.check_circle, Colors.green),
           const SizedBox(width: 16),
           _buildStatCard(context, 'Draft', '0', Icons.edit_note, Colors.orange),
         ],
@@ -70,7 +99,8 @@ class DashboardScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildStatCard(BuildContext context, String title, String value, IconData icon, Color color) {
+  Widget _buildStatCard(BuildContext context, String title, String value,
+      IconData icon, Color color) {
     return Expanded(
       child: Card(
         child: Padding(
@@ -90,7 +120,11 @@ class DashboardScreen extends StatelessWidget {
               Text(
                 title,
                 style: TextStyle(
-                  color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.7),
+                  color: Theme.of(context)
+                      .textTheme
+                      .bodyMedium
+                      ?.color
+                      ?.withOpacity(0.7),
                 ),
               ),
             ],
@@ -101,64 +135,89 @@ class DashboardScreen extends StatelessWidget {
   }
 
   Widget _buildQuickActions(BuildContext context) {
-      return GridView.count(
-        shrinkWrap: true,
-        padding: EdgeInsets.all(20),
-        physics: const NeverScrollableScrollPhysics(),
-        crossAxisCount: 2,
-        mainAxisSpacing: 16,
-        crossAxisSpacing: 16,
-        children: [
-          _buildActionCard(
-            'New Inspection',
-            Icons.add_circle_outline,
-            Colors.blue,
-          ),
-          _buildActionCard(
-            'Search Structure',
-            Icons.search,
-            Colors.green,
-          ),
-          _buildActionCard(
-            'View Reports',
-            Icons.bar_chart,
-            Colors.orange,
-          ),
-          _buildActionCard(
-            'Download Data',
-            Icons.download,
-            Colors.purple,
-          ),
-        ],
-      );
-    }
+    return GridView.count(
+      shrinkWrap: true,
+      padding: EdgeInsets.all(20),
+      physics: const NeverScrollableScrollPhysics(),
+      crossAxisCount: 2,
+      mainAxisSpacing: 16,
+      crossAxisSpacing: 16,
+      children: [
+        _buildActionCard(
+          " New Inspection",
+          Icons.search,
+          Colors.blue,
+          () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => NewInspectionScreen()),
+            );
+          },
+        ),
+        _buildActionCard(
+          'Search Structure',
+          Icons.search,
+          Colors.green,
+          () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => SearchScreen()),
+            );
+          },
+        ),
+        _buildActionCard(
+          'View Reports',
+          Icons.bar_chart,
+          Colors.orange,
+          () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => DashboardScreen()),
+            );
+          },
+        ),
+        _buildActionCard(
+          'Download Data',
+          Icons.download,
+          Colors.purple,
+          () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => DashboardScreen()),
+            );
+          },
+        ),
+      ],
+    );
+  }
 
-    Widget _buildActionCard(String title, IconData icon, Color color) {
-      return Card(
-        elevation: 2,
-        child: InkWell(
-          onTap: () {},
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(icon, size: 40, color: color),
-                const SizedBox(height: 12),
-                Text(
-                  title,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                  ),
+  Widget _buildActionCard(
+      String title, IconData icon, Color color, VoidCallback onTap) {
+    return Card(
+      elevation: 2,
+      child: InkWell(
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(icon, size: 40, color: color),
+              const SizedBox(height: 12),
+              Text(
+                title,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
-      );
-    }
+      ),
+    );
+  }
 
   Widget _buildRecentInspections(BuildContext context) {
     return Padding(

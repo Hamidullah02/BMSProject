@@ -5,11 +5,11 @@ import 'screens/search_screen.dart';
 import 'screens/profile_screen.dart';
 
 void main() {
-  runApp(const RuBIMSApp());
+  runApp(const BMSapp());
 }
 
-class RuBIMSApp extends StatelessWidget {
-  const RuBIMSApp({Key? key}) : super(key: key);
+class BMSapp extends StatelessWidget {
+  const BMSapp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
