@@ -160,8 +160,8 @@ class _InspectionScreenState extends State<InspectionScreen>
         options: MapOptions(
           center: LatLng(24.6, 91),  // Set center to the location of your marker
           zoom: 13.0,  // Fixed zoom level
-          minZoom: 10.0,  // Optional: You can set this to a value you prefer, or remove it completely
-          // maxZoom: 18.0,  // Optional: Set max zoom level, or adjust if needed
+          minZoom: 10.0,
+          // maxZoom: 18.0,
         ),
         children: [
           TileLayer(
